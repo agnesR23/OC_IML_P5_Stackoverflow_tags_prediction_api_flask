@@ -21,6 +21,44 @@ Tests pour l'API Flask de prédiction de tags Stack Overflow.
 import pytest
 import json
 from app import app, model, vectorizer
+import numpy as np
+
+# ✅ Mocks simples directement avec monkeypatch
+@pytest.fixture(autouse=True)
+def mock_models(monkeypatch):
+    class DummyModel:
+        def predict_proba(self, X):
+            return np.array([[0.8, 0.1, 0.1]])
+        @property
+        def classes_(self):
+            return ["python", "list", "reverse"]
+
+    class DummyVectorizer:
+        def transform(self, X):
+            return np.array([[0.1, 0.2, 0.3]])
+
+    class DummyBinarizer:
+        @property
+        def classes_(self):
+            return ["python", "list", "reverse"]
+
+    class DummyNMF:
+        def transform(self, X):
+            return np.array([[0.7, 0.2, 0.1]])
+
+    class DummyTFIDF:
+        def transform(self, X):
+            return np.array([[0.1, 0.2, 0.3]])
+
+    monkeypatch.setattr("app.model", DummyModel())
+    monkeypatch.setattr("app.vectorizer", DummyVectorizer())
+    monkeypatch.setattr("app.binarizer", DummyBinarizer())
+    monkeypatch.setattr("app.nmf_model", DummyNMF())
+    monkeypatch.setattr("app.tfidf_vectorizer", DummyTFIDF())
+    monkeypatch.setattr("app.H", np.array([[0.1, 0.2, 0.7], [0.3, 0.5, 0.2], [0.4, 0.4, 0.2]]))
+    monkeypatch.setattr("app.feature_names", ["css", "html", "center"])
+
+
 
 @pytest.fixture
 def client():
