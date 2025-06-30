@@ -166,6 +166,11 @@ def predict_tags():
     })
 
 if __name__ == "__main__":
+    load_artifacts()
     logging.basicConfig(level=logging.INFO)
     logging.info("🚀 API Flask démarée sur http://0.0.0.0:5001")
     app.run(host="0.0.0.0", port=5001, debug=True)
+else:
+    # 👇 Chargement des artefacts uniquement si on n'est pas en test
+    if os.environ.get("FLASK_ENV") != "testing":
+        load_artifacts()

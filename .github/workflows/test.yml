@@ -24,6 +24,8 @@ jobs:
 
     - name: ▶️ Run tests with pytest
       shell: bash -l {0}  # ← IMPORTANT : exécute dans l’environnement conda activé
+      env:
+          FLASK_ENV: testing  # 👈 désactive le chargement d'artifacts dans app.py
       run: |
         conda info --envs
         which python  # debug
