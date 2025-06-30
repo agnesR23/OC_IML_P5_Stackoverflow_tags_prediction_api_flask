@@ -1,0 +1,45 @@
+# 🐍 Caches Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# 📦 Données et artefacts de modèle
+*.pkl
+*.joblib
+*.npy
+*.npz
+*.csv
+*.tsv
+*.json
+*.html
+
+# 🪵 Logs et fichiers temporaires
+*.log
+*.tmp
+*.bak
+
+# ⚙️ MLflow
+mlruns/
+
+# 🔐 Environnement local / secrets
+.env
+*.env
+.env.*
+
+# 🐍 Environnements virtuels
+.venv/
+env/
+venv/
+
+# 🐳 Docker
+docker_env/
+
+# 🖥️ Fichiers système
+.DS_Store
+Thumbs.db
+
+# 🧠 IDEs & éditeurs
+.vscode/
+.idea/
+*.swp

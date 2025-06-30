@@ -1,0 +1,19 @@
+name: flask_app_env
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.9
+  - numpy=1.26.4
+  - pandas=2.3.0
+  - scikit-learn=1.0.2
+  - pip
+  - pip:
+      - catboost==1.2.7
+      - requests==2.32.3
+      - mlflow==3.1.0
+      - evidently==0.5.1
+      - pytest==7.4.2
+      - pytest-mock==3.14.1
+
+

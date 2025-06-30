@@ -1,0 +1,11 @@
+name: stackoverflow_tests
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.9.22
+  - pytest=7.4.2
+  - pip
+  - pip:
+      - pytest-mock
+      - coverage
