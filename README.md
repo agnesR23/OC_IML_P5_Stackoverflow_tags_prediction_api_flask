@@ -1,7 +1,8 @@
 # 🐍 API Flask – Stack Overflow Tag Predictor  
 *Projet 5 – OpenClassrooms – Parcours Ingénieur Machine Learning*
 
-![Tests](https://github.com/agnesR23/OC_IML_P5_Stackoverflow_tags_prediction_api_flask/actions/workflows/python-app.yml/badge.svg)
+![Tests](https://github.com/agnesR23/OC_IML_P5_Stackoverflow_tags_prediction_api_flask/actions/workflows/test.yml/badge.svg?branch=main)
+
 
 
 Ce répertoire contient le code de l'API Flask permettant de prédire automatiquement les tags d'une question Stack Overflow.
