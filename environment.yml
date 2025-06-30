@@ -7,6 +7,7 @@ dependencies:
   - numpy=1.26.4
   - pandas=2.3.0
   - scikit-learn=1.0.2
+  - flask=2.3.2
   - pip
   - pip:
       - catboost==1.2.7
