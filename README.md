@@ -12,6 +12,7 @@ Fournir une API REST simple capable de recevoir une question (titre + corps) et 
 - `app.py` : point d’entrée de l’API Flask
 - `artifacts/` : modèle entraîné et objets de prétraitement
 - `environment.yml` : dépendances conda de l’API
+- `environment-tests.yml` : dépendances conda légères pour les tests unitaires
 - `tests/` : tests unitaires Pytest
 - `Dockerfile` : image Docker de l’API
 - `README.md` : ce fichier
@@ -26,6 +27,8 @@ python app.py
 #L’API sera accessible sur : http://localhost:5001
 
 🧪 Tests unitaires
+conda env create -f environment-tests.yml
+conda activate stackoverflow_tests
 pytest
 
 🐳 Docker
