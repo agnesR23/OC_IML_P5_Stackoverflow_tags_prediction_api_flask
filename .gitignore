@@ -31,6 +31,8 @@ mlruns/
 .venv/
 env/
 venv/
+condaenv.*.requirements.txt
+
 
 # 🐳 Docker
 docker_env/
