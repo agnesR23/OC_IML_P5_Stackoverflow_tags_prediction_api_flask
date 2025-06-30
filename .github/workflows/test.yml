@@ -20,8 +20,12 @@ jobs:
         auto-update-conda: true
         environment-file: environment-tests.yml
         activate-environment: stackoverflow_tests
+        use-only-tar-bz2: true  # plus robuste avec GitHub Actions
 
     - name: ▶️ Run tests with pytest
+      shell: bash -l {0}  # ← IMPORTANT : exécute dans l’environnement conda activé
       run: |
+        conda info --envs
+        which python  # debug
+        which pytest  # debug
         pytest tests
-
