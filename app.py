@@ -3,7 +3,7 @@ import pickle
 import logging
 import numpy as np
 from flask import Flask, request, jsonify
-from utils import normalize_text, languages_frameworks
+from utils import normalize_text, languages_frameworks, coverage_score_true_pred, precision_at_k_true_pred
 
 app = Flask(__name__)
 
@@ -89,6 +89,8 @@ def predict_tags():
     
     title = data["title"]
     body = data["body"]
+    true_tags = data.get("true_tags", None)
+    print(type(true_tags), true_tags)
 
     if not isinstance(title, str) or not isinstance(body, str):
         return jsonify({"error": "'title' et 'body' doivent être des chaînes de caractères."}), 400
@@ -118,10 +120,26 @@ def predict_tags():
             predicted_tags = [binarizer.classes_[i] for i in top_indices]
             scores = {binarizer.classes_[i]: float(proba[i]) for i in top_indices}
 
+            # Calcul des métriques supervisées si true_tags fournis
+            coverage = None
+            precision_at_3 = None
+            if true_tags is not None and isinstance(true_tags, list) and len(true_tags) > 0:
+                coverage = coverage_score_true_pred([true_tags], [predicted_tags])
+                precision_at_3 = precision_at_k_true_pred([true_tags], [predicted_tags], k=3)
+
             
         except Exception as e:
             app.logger.error(f"Erreur prédiction CatBoost: {e}")
             return jsonify({"error": "Erreur interne lors de la prédiction CatBoost."}), 500
+        
+        response = {
+            "predicted_tags": predicted_tags,
+            "scores": scores,
+            "threshold": threshold,
+            "model_type": model_type,
+            "coverage": coverage,
+            "precision_at_3": precision_at_3
+        }
 
     elif model_type == "nmf":
         if nmf_model is None or tfidf_vectorizer is None or H is None or feature_names is None:
@@ -155,16 +173,18 @@ def predict_tags():
             app.logger.error("Erreur prédiction NMF:")
             app.logger.error(traceback.format_exc())  # Affiche la stack trace complète
             return jsonify({"error": "Erreur interne lors de la prédiction NMF."}), 500
+        
+        response = {
+            "predicted_tags": predicted_tags,
+            "scores": scores,
+            "threshold": threshold,
+            "model_type": model_type
+        }
 
     else:
         return jsonify({"error": f"Type de modèle inconnu : {model_type}"}), 400
 
-    return jsonify({
-        "predicted_tags": predicted_tags,
-        "scores": scores,
-        "threshold": threshold,
-        "model_type": model_type
-    })
+    return jsonify(response)
 
 if __name__ == "__main__":
     if os.environ.get("FLASK_ENV") != "testing":
