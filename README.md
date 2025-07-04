@@ -1,24 +1,24 @@
 # 🐍 API Flask – Stack Overflow Tag Predictor  
-*Projet 5 – OpenClassrooms – Parcours Ingénieur Machine Learning*
+*Par Agnès Regaud – Projet 5 – OpenClassrooms – Parcours Ingénieur Machine Learning*
 
 ![Tests](https://github.com/agnesR23/OC_IML_P5_Stackoverflow_tags_prediction_api_flask/actions/workflows/test.yml/badge.svg?branch=main)
 
 
 
-Ce répertoire contient le code de l'API Flask permettant de prédire automatiquement les tags d'une question Stack Overflow.
+Ce répertoire contient le code source de l’API Flask qui expose un service REST permettant de prédire automatiquement les tags d’une question Stack Overflow à partir de son titre et de son contenu.
 
 ## 🎯 Objectif
 
-Fournir une API REST simple capable de recevoir une question (titre + corps) et de renvoyer une prédiction de tags.
+Fournir une API REST simple et robuste pour recevoir une question (titre + corps) et retourner des prédictions de tags via deux modèles : supervisé (CatBoost) et non supervisé (NMF).
 
 ## 📁 Contenu du répertoire
 
 - `app.py` : point d’entrée de l’API Flask
-- `artifacts/` : modèle entraîné et objets de prétraitement
-- `environment.yml` : dépendances conda de l’API
-- `environment-tests.yml` : dépendances conda légères pour les tests unitaires
+- `artifacts/` : modèles entraînés et objets de prétraitement sauvegardés
+- `environment.yml` : environnement conda complet pour l’API
+- `environment-tests.yml` : environnement léger dédié aux tests unitaires
 - `tests/` : tests unitaires Pytest
-- `Dockerfile` : image Docker de l’API
+- `Dockerfile` : définition de l’image Docker pour l’API
 - `README.md` : ce fichier
 
 ## ▶️ Lancement local (conda)
@@ -49,23 +49,14 @@ Vérification que la fonction normalize_text nettoie et transforme les textes co
 Cas testés : suppression des majuscules, des caractères spéciaux, des balises HTML, etc.
 
 ✅ API Flask de prédiction de tags
-/predict avec CatBoost :
+- /predict avec CatBoost : vérification des réponses et de la structure (tags prédits, scores, seuils, etc.).
 
-Envoie d’une requête valide avec title + body ⇒ réponse attendue : 200 OK.
+- /predict avec NMF : vérification de la bonne gestion du modèle non supervisé et réponse correcte sans seuil (threshold=None).
 
-Vérifie la structure de la réponse (predicted_tags, scores, threshold, etc.).
+- Gestion des erreurs : champs manquants, artefacts non chargés, etc.
 
-/predict avec NMF :
+- Isolation des composants externes via mocks dans les tests
 
-Requête avec model_type="nmf" ⇒ réponse correcte sans seuil (threshold=None).
-
-Gestion des erreurs :
-
-Champs manquants (body absent) ⇒ renvoie 400 Bad Request.
-
-Artefacts non chargés (modèle ou vectorizer absents) ⇒ renvoie 500 Internal Server Error.
-
-Tous les composants externes (modèle, vectorizer…) sont mockés dans les tests pour isoler le comportement de l'API.
 
 ⚙️ Intégration continue
 Les tests sont exécutés automatiquement via GitHub Actions à chaque push grâce à un workflow CI (python-app.yml).
