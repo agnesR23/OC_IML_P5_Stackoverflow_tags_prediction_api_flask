@@ -14,7 +14,7 @@ Fournir une API REST simple et robuste pour recevoir une question (titre + corps
 ## 📁 Contenu du répertoire
 
 - `app.py` : point d’entrée de l’API Flask
-- `artifacts/` : modèles entraînés et objets de prétraitement sauvegardés, non versionné
+- `artifacts/` : modèles entraînés et objets de prétraitement sauvegardés, non versionné (à transférer manuellement ou via pipeline lors du déploiement)
 - `environment.yml` : environnement conda complet pour l’API
 - `environment-tests.yml` : environnement léger dédié aux tests unitaires
 - `tests/` : tests unitaires Pytest
