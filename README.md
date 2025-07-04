@@ -14,7 +14,7 @@ Fournir une API REST simple et robuste pour recevoir une question (titre + corps
 ## 📁 Contenu du répertoire
 
 - `app.py` : point d’entrée de l’API Flask
-- `artifacts/` : modèles entraînés et objets de prétraitement sauvegardés
+- `artifacts/` : modèles entraînés et objets de prétraitement sauvegardés, non versionné
 - `environment.yml` : environnement conda complet pour l’API
 - `environment-tests.yml` : environnement léger dédié aux tests unitaires
 - `tests/` : tests unitaires Pytest
@@ -29,6 +29,9 @@ conda activate flask_app_env
 python app.py
 
 #L’API sera accessible sur : http://localhost:5001
+
+**Important :**
+Avant de lancer l’API en local, vous devez donc récupérer ou générer les artefacts et les placer dans le dossier artifacts/
 
 🧪 Tests unitaires
 conda env create -f environment-tests.yml
