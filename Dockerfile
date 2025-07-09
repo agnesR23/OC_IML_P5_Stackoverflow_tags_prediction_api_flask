@@ -10,4 +10,6 @@ SHELL ["conda", "run", "-n", "flask_app_env", "/bin/bash", "-c"]
 
 COPY . .
 
-# On ne met PAS de CMD ici : il sera défini par chaque service dans docker-compose
+EXPOSE 5001
+
+CMD ["conda", "run", "--no-capture-output", "-n", "flask_app_env", "gunicorn", "-b", "0.0.0.0:5001", "app:app"]
