@@ -122,7 +122,7 @@ def predict_tags():
 
             # Calcul des métriques supervisées si true_tags fournis
             coverage = None
-            precision_at_3 = None
+            precision = None
             if true_tags is not None and isinstance(true_tags, list) and len(true_tags) > 0:
                 coverage = coverage_score_true_pred([true_tags], [predicted_tags])
                 nb_pred = len(predicted_tags)
