@@ -125,8 +125,12 @@ def predict_tags():
             precision_at_3 = None
             if true_tags is not None and isinstance(true_tags, list) and len(true_tags) > 0:
                 coverage = coverage_score_true_pred([true_tags], [predicted_tags])
-                precision_at_3 = precision_at_k_true_pred([true_tags], [predicted_tags], k=3)
-
+                nb_pred = len(predicted_tags)
+                if nb_pred > 0:
+                    n_correct = len(set(predicted_tags) & set(true_tags))
+                    precision = n_correct / nb_pred
+                else:
+                    precision = 0.0
             
         except Exception as e:
             app.logger.error(f"Erreur prédiction CatBoost: {e}")
@@ -138,7 +142,7 @@ def predict_tags():
             "threshold": threshold,
             "model_type": model_type,
             "coverage": coverage,
-            "precision_at_3": precision_at_3
+            "precision": precision
         }
 
     elif model_type == "nmf":
@@ -167,6 +171,19 @@ def predict_tags():
             
             threshold = None
 
+            # Calcul des métriques non supervisées
+            precision = None
+            coverage = None
+            if true_tags is not None and isinstance(true_tags, list) and len(true_tags) > 0:
+                coverage = coverage_score_true_pred([true_tags], [predicted_tags])
+                nb_pred = len(predicted_tags)
+                if nb_pred > 0:
+                    n_correct = len(set(predicted_tags) & set(true_tags))
+                    precision = n_correct / nb_pred
+                else:
+                    precision = 0.0
+
+
 
         except Exception as e:
             import traceback
@@ -178,7 +195,9 @@ def predict_tags():
             "predicted_tags": predicted_tags,
             "scores": scores,
             "threshold": threshold,
-            "model_type": model_type
+            "model_type": model_type,
+            "coverage": coverage,
+            "precision": precision
         }
 
     else:
